@@ -1,18 +1,18 @@
-# [kayeet]
+kayeet
 
-## Beschrijving
-Kayeet is een interactief online quiz platform waar gebruikers hun eigen quizzen kunnen maken, delen en spelen. Het doel is om een competitieve en leerzame omgeving te bieden met real-time feedback en scoretracking.
+Beschrijving
+Kayeet is een platform waar je quizes kan doen van anderen of van jezelf!
 
-## Teamleden
+Teamleden
 - Thomas Grimme
 - Mace van Weerden
 - Jary Boonstra
 
-## Technologieën
+Technologieën
 Dit project is ontwikkeld met de volgende technologieën:
 
-- **Frontend:** HTML, CSS, JavaScript (jQuery)
-- **Backend:** PHP
-- **Database:** MySQL
-- **Versiebeheer:** Git
-- **Projectmanagement:** Scrum
+- Frontend: HTML, CSS, JavaScript (jQuery)
+- Backend: PHP
+- Database: MySQL
+- Versiebeheer: Git
+- Projectmanagement: Scrum
