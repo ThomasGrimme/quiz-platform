@@ -1,4 +1,4 @@
-kayeet
+Kayeet
 
 Beschrijving
 Kayeet is een platform waar je quizes kan doen van anderen of van jezelf!
