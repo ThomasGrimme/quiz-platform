@@ -59,3 +59,27 @@ select {
 h1 {
     margin-bottom: 20px;
 }
+.card {
+    max-width: 500px;
+    margin: 80px auto;
+}
+
+.card p {
+    margin-bottom: 20px;
+    color: #64748B;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-link a {
+    color: #2563EB;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
