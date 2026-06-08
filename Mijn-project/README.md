@@ -7,6 +7,7 @@ Teamleden
 - Thomas Grimme
 - Mace van Weerden
 - Jary Boonstra
+- Joey Krikken
 
 Technologieën
 Dit project is ontwikkeld met de volgende technologieën:
