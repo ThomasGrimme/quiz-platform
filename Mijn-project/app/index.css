@@ -1,71 +1,223 @@
-.auth-shell {
-    display: grid;
-    gap: 24px;
-    grid-template-columns: 1.1fr 1fr;
-    align-items: start;
+/* Speelse Kahoot-geïnspireerde Variabelen */
+:root {
+    --bg-main: #f1f5f9;
+    --panel-purple: #461abc; /* Diep paars, typisch voor quiz-apps */
+    --accent-yellow: #fecdd3;
+    --text-dark: #1e293b;
+    --text-light: #ffffff;
+    
+    /* Gekleurde kaarten/knoppen geïnspireerd door quiz-interfaces */
+    --card-red: #e21b3c;
+    --card-blue: #1368ce;
+    --card-green: #26890c;
+    --card-orange: #d89e00;
+    
+    --radius-playful: 20px;
+    --bounce-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.brand-panel {
+/* De globale pagina-achtergrond voor deze stijl */
+body {
+    background-color: var(--bg-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    margin: 0;
+}
+
+/* De hoofdcontainer */
+.auth-shell {
+    display: grid;
+    gap: 32px;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: center;
+    min-height: 100vh;
     padding: 32px;
-    background: linear-gradient(160deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.96));
-    color: #e2e8f0;
+    max-width: 1300px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* Brand Panel: De grote eyecatcher (links) */
+.brand-panel {
+    padding: 48px;
+    background: var(--panel-purple);
+    color: var(--text-light);
+    border-radius: var(--radius-playful);
+    /* Dikke 3D-schaduw in plaats van een saaie vage schaduw */
+    box-shadow: 0 12px 0px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decoratieve speelse cirkel op de achtergrond */
+.brand-panel::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
 }
 
 .brand-panel h1 {
-    font-size: clamp(2.6rem, 4vw, 4.5rem);
-    line-height: 0.98;
-    letter-spacing: -0.05em;
-    margin-top: 16px;
+    font-size: clamp(2.5rem, 5vw, 4.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    font-weight: 900; /* Extra dikke letters */
+    margin-top: 0;
+    color: #ffffff;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
 }
 
 .brand-panel .muted {
-    color: rgba(226, 232, 240, 0.78);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-top: 16px;
 }
 
+/* Feature Grid: De 4 gekleurde 'knoppen' */
 .feature-grid {
     display: grid;
-    gap: 14px;
+    gap: 16px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-top: 28px;
+    margin-top: 40px;
 }
 
+/* Elke feature-card krijgt een eigen Kahoot-achtige feel */
 .feature-card {
-    padding: 18px;
-    border: 1px solid rgba(148, 163, 184, 0.16);
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.06);
+    padding: 24px;
+    border: none;
+    border-radius: var(--radius-playful);
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    position: relative;
+    transition: var(--bounce-transition);
+    cursor: pointer;
 }
 
+/* Geef de kaarten unieke, levendige kleuren via child-selectors */
+.feature-grid .feature-card:nth-child(1) { 
+    background: var(--card-red); 
+    box-shadow: 0 6px 0 #9d1024;
+}
+.feature-grid .feature-card:nth-child(2) { 
+    background: var(--card-blue); 
+    box-shadow: 0 6px 0 #09458f;
+}
+.feature-grid .feature-card:nth-child(3) { 
+    background: var(--card-green); 
+    box-shadow: 0 6px 0 #175407;
+}
+.feature-grid .feature-card:nth-child(4) { 
+    background: var(--card-orange); 
+    box-shadow: 0 6px 0 #966e00;
+}
+
+/* De magische 'klikbare' animatie (Bouncy & Tactiel) */
+.feature-card:hover {
+    transform: translateY(-4px);
+}
+
+.feature-card:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.2) !important;
+}
+
+/* Het login/registratie paneel (rechts) */
 .auth-panel {
-    padding: 28px;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: var(--radius-playful);
+    box-shadow: 0 12px 0px rgba(0, 0, 0, 0.05);
+    border: 3px solid #e2e8f0;
 }
 
 .auth-stack {
     display: grid;
-    gap: 18px;
+    gap: 24px;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .auth-form {
     display: grid;
-    gap: 16px;
+    gap: 20px;
+}
+
+/* Tip voor de inputs in je HTML (zodat ze matchen met deze stijl) */
+.auth-form input[type="text"],
+.auth-form input[type="password"],
+.auth-form input[type="email"] {
+    padding: 16px;
+    border: 3px solid #cbd5e1;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: var(--bounce-transition);
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: var(--panel-purple);
+    box-shadow: 0 0 0 3px rgba(70, 26, 188, 0.15);
+}
+
+/* Tip voor de hoofdknop in je HTML */
+.auth-form button {
+    background: var(--card-green);
+    color: white;
+    font-weight: 800;
+    font-size: 1.1rem;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 5px 0 #175407;
+    cursor: pointer;
+    transition: var(--bounce-transition);
+}
+
+.auth-form button:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #175407;
 }
 
 .auth-form + .auth-form {
-    margin-top: 28px;
-    padding-top: 28px;
-    border-top: 1px solid var(--border);
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 3px dashed #e2e8f0; /* Speelse stippellijn */
 }
 
 .auth-note {
-    font-size: 0.94rem;
+    font-size: 0.95rem;
+    color: #64748b;
+    text-align: center;
+    font-weight: 500;
 }
 
-@media (max-width: 900px) {
+/* Responsive design dat lekker meeschaalt */
+@media (max-width: 1024px) {
     .auth-shell {
         grid-template-columns: 1fr;
+        max-width: 600px;
+        padding: 20px;
     }
+    
+    .brand-panel {
+        padding: 32px;
+    }
+}
 
+@media (max-width: 640px) {
     .feature-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Onder elkaar op kleine telefoons */
+    }
+    
+    .brand-panel h1 {
+        font-size: 2.5rem;
     }
 }
