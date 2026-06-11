@@ -9,7 +9,7 @@
 <body>
 
 <div class="container">
-    <div class="card">
+    <div class="auth-card">
 
         <h1>Registreren</h1>
         <p>Maak een account aan om quizzen te maken en te spelen.</p>

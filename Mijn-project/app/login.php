@@ -7,7 +7,7 @@
 <body>
 
 <div class="container">
-    <div class="card">
+    <div class="auth-card">
 
         <h1>Inloggen</h1>
 

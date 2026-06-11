@@ -1,4 +1,3 @@
-/* Google Font: Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 * {
@@ -13,36 +12,144 @@ body {
     color: #1E293B;
 }
 
+/* =========================
+   HOME PAGE
+========================= */
+
+.logo-header {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.logo-header h1 {
+    font-size: 64px;
+    font-weight: 700;
+    color: #2563EB;
+    letter-spacing: 2px;
+}
 
 .container {
-    width: 90%;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px 40px;
 }
 
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
+}
 
-.card {
+.hero h2 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #64748B;
+    font-size: 18px;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.action-card {
+    background: linear-gradient(135deg, #2563EB, #3B82F6);
+    color: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15);
+}
+
+.action-card h2 {
+    margin-bottom: 10px;
+}
+
+.action-card p {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.quiz-card {
     background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
+.quiz-card h2 {
+    margin-bottom: 20px;
+}
+
+.quiz-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.quiz-item:last-child {
+    border-bottom: none;
+}
+
+/* =========================
+   BUTTONS
+========================= */
 
 .btn {
-    background: #2563EB;
-    color: white;
+    background: white;
+    color: #2563EB;
     border: none;
     padding: 12px 20px;
     border-radius: 10px;
     cursor: pointer;
+    font-weight: 600;
     font-size: 16px;
 }
 
 .btn:hover {
+    opacity: 0.9;
+}
+
+.open-btn {
+    background: #2563EB;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.open-btn:hover {
     background: #1D4ED8;
 }
 
+/* =========================
+   LOGIN / REGISTER
+========================= */
+
+.auth-card {
+    background: white;
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.auth-card h1 {
+    margin-bottom: 20px;
+}
+
+.auth-card p {
+    color: #64748B;
+    margin-bottom: 20px;
+}
 
 input,
 textarea,
@@ -53,20 +160,7 @@ select {
     border-radius: 10px;
     margin-top: 5px;
     margin-bottom: 15px;
-}
-
-
-h1 {
-    margin-bottom: 20px;
-}
-.card {
-    max-width: 500px;
-    margin: 80px auto;
-}
-
-.card p {
-    margin-bottom: 20px;
-    color: #64748B;
+    font-family: inherit;
 }
 
 .login-link {
@@ -82,4 +176,22 @@ h1 {
 
 .login-link a:hover {
     text-decoration: underline;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+    .logo-header h1 {
+        font-size: 48px;
+    }
+
+    .hero h2 {
+        font-size: 32px;
+    }
+
+    .action-grid {
+        grid-template-columns: 1fr;
+    }
 }
