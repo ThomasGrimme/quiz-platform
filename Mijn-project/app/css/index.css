@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+/* ==========================================================================
+   Kahoot-Style Auth Layout
+   ========================================================================== */
+>>>>>>> 1166b0a68129a69ad62e0cc4b40ba86c4e47c010
 
 :root {
     --bg-main: #f8fafc;
@@ -36,6 +42,10 @@ body {
     box-sizing: border-box;
 }
 
+<<<<<<< HEAD
+=======
+/* Left Column: Brand/Features */
+>>>>>>> 1166b0a68129a69ad62e0cc4b40ba86c4e47c010
 .brand-panel {
     padding: 48px;
     background: var(--panel-purple);
@@ -96,6 +106,10 @@ body {
     text-align: left;
 }
 
+<<<<<<< HEAD
+=======
+/* 3D block shadows */
+>>>>>>> 1166b0a68129a69ad62e0cc4b40ba86c4e47c010
 .feature-grid .feature-card:nth-child(1) { background: var(--card-red); box-shadow: 0 6px 0 #9d1024; }
 .feature-grid .feature-card:nth-child(2) { background: var(--card-blue); box-shadow: 0 6px 0 #09458f; }
 .feature-grid .feature-card:nth-child(3) { background: var(--card-green); box-shadow: 0 6px 0 #175407; }
@@ -110,6 +124,10 @@ body {
     box-shadow: 0 2px 0 rgba(0,0,0,0.1);
 }
 
+<<<<<<< HEAD
+=======
+/* Right Column: Form Panel */
+>>>>>>> 1166b0a68129a69ad62e0cc4b40ba86c4e47c010
 .auth-panel {
     padding: 40px;
     background: #ffffff;
@@ -256,7 +274,11 @@ body {
     font-weight: 600;
 }
 
+<<<<<<< HEAD
 
+=======
+/* Responsive */
+>>>>>>> 1166b0a68129a69ad62e0cc4b40ba86c4e47c010
 @media (max-width: 1024px) {
     .auth-shell {
         grid-template-columns: 1fr;

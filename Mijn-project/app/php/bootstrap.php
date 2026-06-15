@@ -21,6 +21,7 @@ function is_logged_in(): bool
 
 function current_user_name(): string
 {
+<<<<<<< HEAD
     return $_SESSION['user_name'] ?? $_SESSION['user_username'] ?? 'speler';
 }
 
@@ -45,4 +46,7 @@ function require_csrf_token(): void
         header('Location: /index.php?error=invalid_input');
         exit;
     }
+=======
+    return $_SESSION['user_name'] ?? 'speler';
+>>>>>>> 1166b0a68129a69ad62e0cc4b40ba86c4e47c010
 }
