@@ -15,7 +15,6 @@ try {
         PDO::ATTR_EMULATE_PREPARES => false,
     ]);
 
-<<<<<<< HEAD
     ensureSchema($pdo);
     seedTestUser($pdo);
 } catch (PDOException $exception) {
@@ -25,13 +24,10 @@ try {
 
 function ensureSchema(PDO $pdo): void
 {
-=======
->>>>>>> 1166b0a68129a69ad62e0cc4b40ba86c4e47c010
     $pdo->exec(
         'CREATE TABLE IF NOT EXISTS users (
             id INT UNSIGNED NOT NULL AUTO_INCREMENT,
             name VARCHAR(100) NOT NULL,
-<<<<<<< HEAD
             gebruikersnaam VARCHAR(100) NOT NULL,
             email VARCHAR(255) NOT NULL,
             wachtwoord_hash VARCHAR(255) NOT NULL,
@@ -39,17 +35,10 @@ function ensureSchema(PDO $pdo): void
             laatst_ingelogd_op TIMESTAMP NULL DEFAULT NULL,
             PRIMARY KEY (id),
             UNIQUE KEY uniq_users_gebruikersnaam (gebruikersnaam),
-=======
-            email VARCHAR(255) NOT NULL,
-            password_hash VARCHAR(255) NOT NULL,
-            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            PRIMARY KEY (id),
->>>>>>> 1166b0a68129a69ad62e0cc4b40ba86c4e47c010
             UNIQUE KEY uniq_users_email (email)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
     );
 
-<<<<<<< HEAD
     if (columnExists($pdo, 'users', 'password_hash') && !columnExists($pdo, 'users', 'wachtwoord_hash')) {
         $pdo->exec('ALTER TABLE users CHANGE password_hash wachtwoord_hash VARCHAR(255) NOT NULL');
     }
@@ -257,22 +246,4 @@ function seedTestUser(PDO $pdo): void
             'wachtwoord_hash' => password_hash('Test1234!', PASSWORD_DEFAULT),
         ]);
     }
-=======
-    $testEmail = 'test@test.com';
-    $testPassword = 'Test1234!';
-    $seed = $pdo->prepare('SELECT id FROM users WHERE email = :email LIMIT 1');
-    $seed->execute(['email' => $testEmail]);
-
-    if (!$seed->fetch()) {
-        $insert = $pdo->prepare('INSERT INTO users (name, email, password_hash) VALUES (:name, :email, :password_hash)');
-        $insert->execute([
-            'name' => 'Test User',
-            'email' => $testEmail,
-            'password_hash' => password_hash($testPassword, PASSWORD_DEFAULT),
-        ]);
-    }
-} catch (PDOException $exception) {
-    http_response_code(500);
-    exit('Database connection failed.');
->>>>>>> 1166b0a68129a69ad62e0cc4b40ba86c4e47c010
 }
