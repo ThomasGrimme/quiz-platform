@@ -7,7 +7,7 @@ require_once __DIR__ . '/db.php';
 function require_login(): void
 {
     if (!is_logged_in()) {
-        header('Location: index.php?error=login_required');
+        header('Location: /index.php?error=login_required');
         exit;
     }
 }

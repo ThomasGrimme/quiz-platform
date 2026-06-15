@@ -28,7 +28,10 @@ $userName = current_user_name();
         <div class="dashboard-actions">
             <a class="button button-secondary" href="/quiz_spelen.php">Spelen</a>
             <a class="button" href="/quiz_aanmaken.php">Nieuwe quiz</a>
-            <a class="button button-ghost" href="/logout.php">Uitloggen</a>
+            <form class="inline-form" action="/logout.php" method="post">
+                <?= csrf_field() ?>
+                <button class="button button-ghost" type="submit">Uitloggen</button>
+            </form>
         </div>
     </header>
 
