@@ -1,0 +1,192 @@
+/* ==========================================================================
+   QUIZ BUILDER WORKSPACE STYLE
+   ========================================================================== */
+
+/* Outer Structural Grid Layout */
+.qb-shell {
+    display: grid !important;
+    gap: 32px !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 40px 24px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+}
+
+.qb-shell *, .qb-shell *::before, .qb-shell *::after {
+    box-sizing: border-box !important;
+}
+
+/* Individual Card Structural Blocks */
+.qb-hero, 
+.qb-form-box, 
+.qb-sidebar-box {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    padding: 32px !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 4px 12px rgba(0, 0, 0, 0.01) !important;
+    text-align: left !important;
+}
+
+/* Banner Hero Styling */
+.qb-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+}
+
+/* Flex Framework Splits */
+.qb-workspace-split {
+    display: grid !important;
+    grid-template-columns: 1.2fr 0.8fr !important;
+    gap: 32px !important;
+    align-items: start !important;
+    width: 100% !important;
+}
+
+/* Typography Consistency Rules */
+.qb-eyebrow {
+    display: block !important;
+    font-size: 0.85rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    color: #6366f1 !important; /* Standout Indigo */
+    font-weight: 700 !important;
+    margin: 0 0 6px 0 !important;
+}
+
+.qb-main-heading {
+    font-size: 2.25rem !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.qb-section-heading {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.qb-muted-text {
+    font-size: 0.95rem !important;
+    color: #64748b !important;
+    margin: 0 !important;
+    line-height: 1.5 !important;
+}
+
+/* Form Fields & Alignment Layout */
+.qb-section-header {
+    margin-bottom: 24px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    padding-bottom: 16px !important;
+}
+
+.qb-form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+}
+
+.qb-input-field {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+
+.qb-input-field label {
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+}
+
+.qb-input-field input[type="text"] {
+    width: 100% !important;
+    padding: 14px 16px !important;
+    font-size: 1rem !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 10px !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    outline: none !important;
+    transition: all 0.2s ease !important;
+}
+
+.qb-input-field input[type="text"]:focus {
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12) !important;
+}
+
+.qb-form-actions {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 16px !important;
+    margin-top: 8px !important;
+}
+
+/* Checklist Display Stack Elements */
+.qb-steps-stack {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+}
+
+.qb-step-item {
+    display: flex !important;
+    gap: 16px !important;
+    align-items: flex-start !important;
+    padding: 16px !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+}
+
+/* Highlight current active form position step */
+.qb-step-item.qb-step-active {
+    background: #f5f3ff !important;
+    border-color: #c7d2fe !important;
+}
+
+.qb-step-num {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    background: #e2e8f0 !important;
+    color: #475569 !important;
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    flex-shrink: 0 !important;
+}
+
+.qb-step-active .qb-step-num {
+    background: #6366f1 !important;
+    color: #ffffff !important;
+}
+
+.qb-step-content {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+}
+
+.qb-step-content strong {
+    font-size: 0.95rem !important;
+    color: #0f172a !important;
+}
+
+/* Responsive Adaptive Viewports */
+@media (max-width: 960px) {
+    .qb-workspace-split {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+    }
+}

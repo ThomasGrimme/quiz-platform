@@ -4,7 +4,9 @@ require_once __DIR__ . '/auth.php';
 
 require_login();
 
-$userName = current_user_name();
+function e(string $val): string {
+    return htmlspecialchars($val, ENT_QUOTES, 'UTF-8');
+}
 ?>
 <!doctype html>
 <html lang="nl">
@@ -12,90 +14,94 @@ $userName = current_user_name();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kayeet | Dashboard</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/components.css">
-    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/style.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="/css/components.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="/css/dashboard.css?v=<?= time() ?>">
 </head>
 <body>
-<main class="page dashboard-shell">
-    <header class="card dashboard-topbar">
-        <div class="stack">
-            <div class="eyebrow">Dashboard</div>
-            <h1>Welkom, <?= htmlspecialchars($userName, ENT_QUOTES, 'UTF-8') ?></h1>
-            <p class="muted">Kies een quiz, start er één, of ga meteen bouwen.</p>
-        </div>
 
-        <div class="dashboard-actions">
-            <a class="button button-secondary" href="/quiz_spelen.php">Spelen</a>
-            <a class="button" href="/quiz_aanmaken.php">Nieuwe quiz</a>
-            <form class="inline-form" action="/logout.php" method="post">
+<main class="db-shell">
+    
+    <header class="db-topbar">
+        <div class="db-title-group">
+            <span class="db-eyebrow">Dashboard</span>
+            <h1 class="db-main-heading">Welkom, <?= e(current_user_name()) ?></h1>
+            <p class="db-muted-text">Fijn dat je er bent. Kies een actie hieronder om direct aan de slag te gaan.</p>
+        </div>
+        <div class="db-actions-group">
+            <form action="/logout.php" method="post" style="display: inline; margin: 0;">
                 <?= csrf_field() ?>
                 <button class="button button-ghost" type="submit">Uitloggen</button>
             </form>
         </div>
     </header>
 
-    <section class="dashboard-metrics">
-        <article class="card metric-card">
-            <div class="eyebrow">Mijn quizzes</div>
-            <div class="metric-value">0</div>
-            <p class="muted">Nog geen quizzen aangemaakt.</p>
+    <section class="db-metrics-row" aria-label="Statistieken">
+        <article class="db-metric-block">
+            <span class="db-eyebrow">Mijn quizzen</span>
+            <span class="db-metric-num">0</span>
+            <p class="db-muted-text">Nog geen quizzen aangemaakt.</p>
         </article>
-        <article class="card metric-card">
-            <div class="eyebrow">Actieve spelers</div>
-            <div class="metric-value">0</div>
-            <p class="muted">Wachten op de eerste speelronde.</p>
+        <article class="db-metric-block">
+            <span class="db-eyebrow">Actieve spelers</span>
+            <span class="db-metric-num">0</span>
+            <p class="db-muted-text">Wachten op de eerste speelronde.</p>
         </article>
-        <article class="card metric-card">
-            <div class="eyebrow">Gepubliceerd</div>
-            <div class="metric-value">0</div>
-            <p class="muted">Niets live, dus alles nog veilig.</p>
+        <article class="db-metric-block">
+            <span class="db-eyebrow">Gepubliceerd</span>
+            <span class="db-metric-num">0</span>
+            <p class="db-muted-text">Niets live, alles is veilig.</p>
         </article>
-        <article class="card metric-card">
-            <div class="eyebrow">Voltooid</div>
-            <div class="metric-value">0</div>
-            <p class="muted">Nog geen afgeronde sessies.</p>
+        <article class="db-metric-block">
+            <span class="db-eyebrow">Voltooid</span>
+            <span class="db-metric-num">0</span>
+            <p class="db-muted-text">Nog geen afgeronde sessies.</p>
         </article>
     </section>
 
-    <section class="dashboard-grid">
-        <article class="card quiz-library">
-            <div class="section-title">
-                <div>
-                    <div class="eyebrow">Jouw quizzen</div>
-                    <h2>Overzicht</h2>
+    <section class="db-main-split">
+        
+        <article class="db-content-area" aria-labelledby="lib-heading">
+            <div class="db-section-header">
+                <div class="db-title-stack">
+                    <span class="db-eyebrow">Jouw archief</span>
+                    <h2 id="lib-heading" class="db-section-heading">Overzicht</h2>
                 </div>
-                <a class="button button-ghost" href="/quiz_aanmaken.php">Quiz maken</a>
             </div>
 
             <div class="empty-state">
                 <span class="pill"><span class="status-dot"></span> Nog geen items</span>
                 <h3>Je hebt nog geen quizzen.</h3>
-                <p class="muted">Maak je eerste quiz aan om hier meteen een mooi overzicht te krijgen.</p>
-                <a class="button" href="/quiz_aanmaken.php">Start met bouwen</a>
+                <p class="muted">Maak hiernaast je eerste quiz aan om je overzicht te vullen.</p>
             </div>
         </article>
 
-        <aside class="card quick-actions">
-            <div>
-                <div class="eyebrow">Snel starten</div>
-                <h2>Acties</h2>
+        <aside class="db-sidebar-area" aria-labelledby="actions-heading">
+            <div class="db-section-header">
+                <div class="db-title-stack">
+                    <span class="db-eyebrow">Snel starten</span>
+                    <h2 id="actions-heading" class="db-section-heading">Acties</h2>
+                </div>
             </div>
-
-            <a class="quick-action" href="/quiz_aanmaken.php">
-                <strong>Quiz aanmaken</strong>
-                <span class="muted">Nieuwe quiz, vragen en instellingen.</span>
-            </a>
-            <a class="quick-action" href="/quiz_spelen.php">
-                <strong>Quiz spelen</strong>
-                <span class="muted">Test de speelervaring meteen uit.</span>
-            </a>
-            <a class="quick-action" href="/index.php">
-                <strong>Terug naar start</strong>
-                <span class="muted">Meld je opnieuw aan of registreer een gebruiker.</span>
-            </a>
+            
+            <nav class="db-actions-list">
+                <a class="db-action-item db-action-primary" href="/quiz_aanmaken.php">
+                    <strong>Quiz aanmaken</strong>
+                    <span class="db-muted-text">Ontwerp een nieuwe quiz met op maat gemaakte vragen.</span>
+                </a>
+                <a class="db-action-item" href="/quiz_spelen.php">
+                    <strong>Quiz spelen</strong>
+                    <span class="db-muted-text">Test direct een live speelsessie uit.</span>
+                </a>
+                <a class="db-action-item" href="/index.php">
+                    <strong>Terug naar start</strong>
+                    <span class="db-muted-text">Ga naar de landingspagina van Kayeet.</span>
+                </a>
+            </nav>
         </aside>
+        
     </section>
 </main>
+
 </body>
 </html>

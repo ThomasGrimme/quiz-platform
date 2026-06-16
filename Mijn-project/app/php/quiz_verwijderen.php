@@ -12,5 +12,5 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 require_csrf_token();
 
-header('Location: /php/dashboard.php');
+header('Location: /dashboard.php');
 exit;
