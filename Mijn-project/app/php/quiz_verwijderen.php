@@ -6,9 +6,11 @@ require_once __DIR__ . '/auth.php';
 require_login();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: dashboard.php');
+    header('Location: /dashboard.php');
     exit;
 }
 
-header('Location: dashboard.php');
+require_csrf_token();
+
+header('Location: /dashboard.php');
 exit;

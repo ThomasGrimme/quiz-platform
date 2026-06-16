@@ -96,6 +96,11 @@ select:focus {
     align-items: center;
 }
 
+.inline-form {
+    display: inline-flex;
+    margin: 0;
+}
+
 .pill {
     display: inline-flex;
     align-items: center;

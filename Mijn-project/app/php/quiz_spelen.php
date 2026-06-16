@@ -10,11 +10,11 @@ require_login();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kayeet | Quiz spelen</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="components.css">
-    <link rel="stylesheet" href="quiz_spelen.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/quiz_spelen.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="script.js" defer></script>
+    <script src="/js/script.js" defer></script>
 </head>
 <body>
 <main class="page game-shell">
