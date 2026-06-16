@@ -7,6 +7,21 @@ require_login();
 function e(string $val): string {
     return htmlspecialchars($val, ENT_QUOTES, 'UTF-8');
 }
+
+$userId = (int) $_SESSION['user_id'];
+$myQuizzes = $pdo->prepare('SELECT id, titel, aangemaakt_op FROM quizzes WHERE user_id = :user_id ORDER BY aangemaakt_op DESC');
+$myQuizzes->execute(['user_id' => $userId]);
+$quizzes = $myQuizzes->fetchAll();
+
+$quizCount = count($quizzes);
+$totalQuestions = 0;
+if ($quizCount > 0) {
+    $ids = array_column($quizzes, 'id');
+    $placeholders = implode(',', array_fill(0, count($ids), '?'));
+    $qStmt = $pdo->prepare("SELECT COUNT(*) FROM questions WHERE quiz_id IN ($placeholders)");
+    $qStmt->execute($ids);
+    $totalQuestions = (int) $qStmt->fetchColumn();
+}
 ?>
 <!doctype html>
 <html lang="nl">
@@ -21,7 +36,7 @@ function e(string $val): string {
 <body>
 
 <main class="db-shell">
-    
+
     <header class="db-topbar">
         <div class="db-title-group">
             <span class="db-eyebrow">Dashboard</span>
@@ -39,18 +54,18 @@ function e(string $val): string {
     <section class="db-metrics-row" aria-label="Statistieken">
         <article class="db-metric-block">
             <span class="db-eyebrow">Mijn quizzen</span>
-            <span class="db-metric-num">0</span>
-            <p class="db-muted-text">Nog geen quizzen aangemaakt.</p>
+            <span class="db-metric-num"><?= $quizCount ?></span>
+            <p class="db-muted-text"><?= $quizCount === 0 ? 'Nog geen quizzen aangemaakt.' : 'Totaal aantal quizzen.' ?></p>
         </article>
         <article class="db-metric-block">
-            <span class="db-eyebrow">Actieve spelers</span>
-            <span class="db-metric-num">0</span>
-            <p class="db-muted-text">Wachten op de eerste speelronde.</p>
+            <span class="db-eyebrow">Vragen</span>
+            <span class="db-metric-num"><?= $totalQuestions ?></span>
+            <p class="db-muted-text">Totaal aantal vragen.</p>
         </article>
         <article class="db-metric-block">
             <span class="db-eyebrow">Gepubliceerd</span>
-            <span class="db-metric-num">0</span>
-            <p class="db-muted-text">Niets live, alles is veilig.</p>
+            <span class="db-metric-num"><?= $quizCount ?></span>
+            <p class="db-muted-text">Klaar om te spelen.</p>
         </article>
         <article class="db-metric-block">
             <span class="db-eyebrow">Voltooid</span>
@@ -60,7 +75,7 @@ function e(string $val): string {
     </section>
 
     <section class="db-main-split">
-        
+
         <article class="db-content-area" aria-labelledby="lib-heading">
             <div class="db-section-header">
                 <div class="db-title-stack">
@@ -69,11 +84,29 @@ function e(string $val): string {
                 </div>
             </div>
 
-            <div class="empty-state">
-                <span class="pill"><span class="status-dot"></span> Nog geen items</span>
-                <h3>Je hebt nog geen quizzen.</h3>
-                <p class="muted">Maak hiernaast je eerste quiz aan om je overzicht te vullen.</p>
-            </div>
+            <?php if (empty($quizzes)): ?>
+                <div class="empty-state">
+                    <span class="pill"><span class="status-dot"></span> Nog geen items</span>
+                    <h3>Je hebt nog geen quizzen.</h3>
+                    <p class="muted">Maak hiernaast je eerste quiz aan om je overzicht te vullen.</p>
+                    <a class="button" href="/quiz_aanmaken.php">Quiz maken</a>
+                </div>
+            <?php else: ?>
+                <div class="list">
+                    <?php foreach ($quizzes as $qz): ?>
+                        <div class="list-item">
+                            <div>
+                                <strong><?= e($qz['titel']) ?></strong>
+                                <span class="muted" style="font-size:0.85rem;"><?= e($qz['aangemaakt_op']) ?></span>
+                            </div>
+                            <div class="form-actions" style="gap:8px;">
+                                <a class="button button-ghost" href="/quiz_bewerken.php?id=<?= (int) $qz['id'] ?>" style="min-height:36px;font-size:0.85rem;">Bewerk</a>
+                                <a class="button" href="/quiz_spelen.php?id=<?= (int) $qz['id'] ?>" style="min-height:36px;font-size:0.85rem;">Speel</a>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
         </article>
 
         <aside class="db-sidebar-area" aria-labelledby="actions-heading">
@@ -83,7 +116,7 @@ function e(string $val): string {
                     <h2 id="actions-heading" class="db-section-heading">Acties</h2>
                 </div>
             </div>
-            
+
             <nav class="db-actions-list">
                 <a class="db-action-item db-action-primary" href="/quiz_aanmaken.php">
                     <strong>Quiz aanmaken</strong>
@@ -99,7 +132,7 @@ function e(string $val): string {
                 </a>
             </nav>
         </aside>
-        
+
     </section>
 </main>
 

@@ -25,5 +25,5 @@ $statement->execute([
     'user_id' => (int) $_SESSION['user_id'],
 ]);
 
-header('Location: /quiz_aanmaken.php?message=quiz_aangemaakt');
+header('Location: /quiz_bewerken.php?id=' . $pdo->lastInsertId());
 exit;

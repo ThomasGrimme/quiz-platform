@@ -56,6 +56,18 @@
     box-shadow: 0 10px 24px rgba(91, 92, 246, 0.12);
 }
 
+.answer-card input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    min-height: auto;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    accent-color: var(--primary);
+    flex-shrink: 0;
+}
+
 .scoreboard {
     display: grid;
     gap: 18px;
