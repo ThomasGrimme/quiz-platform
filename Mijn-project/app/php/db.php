@@ -1,11 +1,13 @@
 <?php
 declare(strict_types=1);
 
+// Databasegegevens ophalen
 $host = getenv('DB_HOST') ?: 'mysql';
 $dbname = getenv('DB_NAME') ?: 'database';
 $user = getenv('DB_USER') ?: 'root';
 $pass = getenv('DB_PASS') ?: 'root';
 
+// Verbinding maken met de database
 $dsn = "mysql:host={$host};dbname={$dbname};charset=utf8mb4";
 
 try {
@@ -15,6 +17,7 @@ try {
         PDO::ATTR_EMULATE_PREPARES => false,
     ]);
 
+    // Maakt de tabellen aan en voegt testgegevens toe
     ensureSchema($pdo);
     seedTestUser($pdo);
 } catch (PDOException $exception) {
@@ -22,6 +25,7 @@ try {
     exit('Database connection failed.');
 }
 
+// Maakt alle benodigde tabellen aan
 function ensureSchema(PDO $pdo): void
 {
     $pdo->exec(
@@ -131,6 +135,7 @@ function ensureSchema(PDO $pdo): void
     );
 }
 
+// bekijkt of een kolom bestaat
 function columnExists(PDO $pdo, string $table, string $column): bool
 {
     $statement = $pdo->prepare(
@@ -148,6 +153,7 @@ function columnExists(PDO $pdo, string $table, string $column): bool
     return (int) $statement->fetchColumn() > 0;
 }
 
+// Controleert of een index bestaat
 function indexExists(PDO $pdo, string $table, string $indexName): bool
 {
     $statement = $pdo->prepare(
@@ -165,6 +171,7 @@ function indexExists(PDO $pdo, string $table, string $indexName): bool
     return (int) $statement->fetchColumn() > 0;
 }
 
+// Voegt een index toe als deze nog niet bestaat
 function ensureIndex(PDO $pdo, string $table, string $indexName, string $definition): void
 {
     if (!indexExists($pdo, $table, $indexName)) {
@@ -172,6 +179,7 @@ function ensureIndex(PDO $pdo, string $table, string $indexName, string $definit
     }
 }
 
+// Vult ontbrekende gebruikersnamen automatisch in
 function backfillUsernames(PDO $pdo): void
 {
     $statement = $pdo->query('SELECT id, name, gebruikersnaam, email FROM users ORDER BY id ASC');
@@ -200,6 +208,7 @@ function backfillUsernames(PDO $pdo): void
         $candidate = $base;
         $suffix = 1;
 
+        // Maakt een unieke gebruikersnaam
         while (isset($used[$candidate])) {
             $candidate = $base . $suffix;
             $suffix++;
@@ -218,6 +227,7 @@ function backfillUsernames(PDO $pdo): void
     $pdo->exec('ALTER TABLE users MODIFY gebruikersnaam VARCHAR(100) NOT NULL');
 }
 
+// Zet een naam om naar een goedgekeurde gebruikersnaam
 function normalizeUsername(string $value): string
 {
     $value = strtolower(trim($value));
@@ -226,6 +236,7 @@ function normalizeUsername(string $value): string
     return $value !== '' ? $value : 'user';
 }
 
+// Maakt een testgebruiker aan als die nog niet bestaat
 function seedTestUser(PDO $pdo): void
 {
     $email = 'test@test.com';

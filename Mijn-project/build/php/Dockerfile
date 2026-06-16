@@ -3,8 +3,7 @@ FROM php:8.1-apache
 RUN apt-get update && \
     docker-php-ext-install mysqli pdo pdo_mysql
 
-# Point DocumentRoot to /var/www/html/php so /index.php -> app/php/index.php
-# Add aliases so /css/* and /js/* resolve to app/css/ and app/js/
+# Laat Apache de php-map gebruiken
 RUN sed -i \
     's!DocumentRoot /var/www/html!DocumentRoot /var/www/html/php!' \
     /etc/apache2/sites-available/000-default.conf && \
