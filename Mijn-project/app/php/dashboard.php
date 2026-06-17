@@ -1,23 +1,30 @@
 <?php
 declare(strict_types=1);
+
 require_once __DIR__ . '/auth.php';
 
+// Controleert of de gebruiker is ingelogd
 require_login();
 
+// Zet speciale tekens om naar veilige HTML
 function e(string $val): string {
     return htmlspecialchars($val, ENT_QUOTES, 'UTF-8');
 }
+
 
 $userId = (int) $_SESSION['user_id'];
 $myQuizzes = $pdo->prepare('SELECT id, titel, aangemaakt_op FROM quizzes WHERE user_id = :user_id ORDER BY aangemaakt_op DESC');
 $myQuizzes->execute(['user_id' => $userId]);
 $quizzes = $myQuizzes->fetchAll();
 
+// Telt het aantal quizzen en vragen
 $quizCount = count($quizzes);
 $totalQuestions = 0;
+
 if ($quizCount > 0) {
     $ids = array_column($quizzes, 'id');
     $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
     $qStmt = $pdo->prepare("SELECT COUNT(*) FROM questions WHERE quiz_id IN ($placeholders)");
     $qStmt->execute($ids);
     $totalQuestions = (int) $qStmt->fetchColumn();
