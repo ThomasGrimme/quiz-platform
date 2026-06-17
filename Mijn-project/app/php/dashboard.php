@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/auth.php';
 
-// Controleert of de gebruiker is ingelogd
+// controleert of de gebruiker is ingelogd
 require_login();
 
-// Zet speciale tekens om naar veilige HTML
+// zet speciale tekens om naar veilige HTML
 function e(string $val): string {
     return htmlspecialchars($val, ENT_QUOTES, 'UTF-8');
 }
@@ -17,7 +17,7 @@ $myQuizzes = $pdo->prepare('SELECT id, titel, aangemaakt_op FROM quizzes WHERE u
 $myQuizzes->execute(['user_id' => $userId]);
 $quizzes = $myQuizzes->fetchAll();
 
-// Telt het aantal quizzen en vragen
+// telt het aantal quizzen en vragen
 $quizCount = count($quizzes);
 $totalQuestions = 0;
 
