@@ -7,10 +7,10 @@ require_once __DIR__ . '/auth.php';
 require_login();
 
 // zet speciale tekens om naar veilige HTML
-function e(string $val): string {
+function e(string $val): string
+{
     return htmlspecialchars($val, ENT_QUOTES, 'UTF-8');
 }
-
 
 $userId = (int) $_SESSION['user_id'];
 $myQuizzes = $pdo->prepare('SELECT id, titel, aangemaakt_op FROM quizzes WHERE user_id = :user_id ORDER BY aangemaakt_op DESC');
@@ -50,8 +50,9 @@ if ($quizCount > 0) {
             <h1 class="db-main-heading">Welkom, <?= e(current_user_name()) ?></h1>
             <p class="db-muted-text">Fijn dat je er bent. Kies een actie hieronder om direct aan de slag te gaan.</p>
         </div>
+
         <div class="db-actions-group">
-            <form action="/logout.php" method="post" style="display: inline; margin: 0;">
+            <form action="/logout.php" method="post" class="logout-form">
                 <?= csrf_field() ?>
                 <button class="button button-ghost" type="submit">Uitloggen</button>
             </form>
@@ -64,16 +65,19 @@ if ($quizCount > 0) {
             <span class="db-metric-num"><?= $quizCount ?></span>
             <p class="db-muted-text"><?= $quizCount === 0 ? 'Nog geen quizzen aangemaakt.' : 'Totaal aantal quizzen.' ?></p>
         </article>
+
         <article class="db-metric-block">
             <span class="db-eyebrow">Vragen</span>
             <span class="db-metric-num"><?= $totalQuestions ?></span>
             <p class="db-muted-text">Totaal aantal vragen.</p>
         </article>
+
         <article class="db-metric-block">
             <span class="db-eyebrow">Gepubliceerd</span>
             <span class="db-metric-num"><?= $quizCount ?></span>
             <p class="db-muted-text">Klaar om te spelen.</p>
         </article>
+
         <article class="db-metric-block">
             <span class="db-eyebrow">Voltooid</span>
             <span class="db-metric-num">0</span>
@@ -104,19 +108,20 @@ if ($quizCount > 0) {
                         <div class="list-item">
                             <div>
                                 <strong><?= e($qz['titel']) ?></strong>
-                                <span class="muted" style="font-size:0.85rem;"><?= e($qz['aangemaakt_op']) ?></span>
+                                <span class="muted quiz-date"><?= e($qz['aangemaakt_op']) ?></span>
                             </div>
-                            <div class="form-actions" style="gap:8px;">
-                                <a class="button button-ghost" href="/quiz_bewerken.php?id=<?= (int) $qz['id'] ?>" style="min-height:36px;font-size:0.85rem;">Bewerk</a>
-                                <a class="button" href="/quiz_spelen.php?id=<?= (int) $qz['id'] ?>" style="min-height:36px;font-size:0.85rem;">Speel</a>
+
+                            <div class="form-actions quiz-actions">
+                                <a class="button button-ghost quiz-button" href="/quiz_bewerken.php?id=<?= (int) $qz['id'] ?>">Bewerk</a>
+
+                                <a class="button quiz-button" href="/quiz_spelen.php?id=<?= (int) $qz['id'] ?>">Speel</a>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
         </article>
-
-        <aside class="db-sidebar-area" aria-labelledby="actions-heading">
+                <aside class="db-sidebar-area" aria-labelledby="actions-heading">
             <div class="db-section-header">
                 <div class="db-title-stack">
                     <span class="db-eyebrow">Snel starten</span>
@@ -129,10 +134,12 @@ if ($quizCount > 0) {
                     <strong>Quiz aanmaken</strong>
                     <span class="db-muted-text">Ontwerp een nieuwe quiz met op maat gemaakte vragen.</span>
                 </a>
+
                 <a class="db-action-item" href="/quiz_spelen.php">
                     <strong>Quiz spelen</strong>
                     <span class="db-muted-text">Test direct een live speelsessie uit.</span>
                 </a>
+
                 <a class="db-action-item" href="/index.php">
                     <strong>Terug naar start</strong>
                     <span class="db-muted-text">Ga naar de landingspagina van Kayeet.</span>

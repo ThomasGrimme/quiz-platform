@@ -20,7 +20,7 @@ try {
     // maakt de tabellen aan en voegt testgegevens toe
     ensureSchema($pdo);
     seedTestUser($pdo);
-} catch (PDOException $exception) {
+} catch (PDOException ) {
     http_response_code(500);
     exit('Database connection failed.');
 }

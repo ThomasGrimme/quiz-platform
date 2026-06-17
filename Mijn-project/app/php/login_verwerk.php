@@ -1,11 +1,6 @@
 <?php
 declare(strict_types=1);
 
-// Start de sessie als die nog niet actief is
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 require_once __DIR__ . '/auth.php';
 
 // Controleert of het formulier is verzonden
@@ -13,7 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /index.php');
     exit;
 }
-
 
 require_csrf_token();
 
@@ -48,7 +42,6 @@ $_SESSION['user_email'] = $user['email'];
 // werkt de laatste inlogtijd bij
 $touch = $pdo->prepare('UPDATE users SET laatst_ingelogd_op = CURRENT_TIMESTAMP WHERE id = :id');
 $touch->execute(['id' => (int) $user['id']]);
-
 
 header('Location: /dashboard.php');
 exit;

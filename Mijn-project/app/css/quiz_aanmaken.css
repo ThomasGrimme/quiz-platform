@@ -190,3 +190,7 @@
         gap: 24px !important;
     }
 }
+.qb-alert {
+    max-width: 900px;
+    margin: 1rem auto;
+}

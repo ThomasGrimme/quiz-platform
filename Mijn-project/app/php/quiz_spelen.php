@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/auth.php';
 
-
 require_login();
 
 // haalt het ID van de gekozen quiz op

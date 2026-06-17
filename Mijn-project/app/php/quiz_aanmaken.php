@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 require_once __DIR__ . '/auth.php';
 
 require_login();
@@ -13,18 +14,19 @@ $message = $_GET['message'] ?? '';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kayeet | Quiz aanmaken</title>
-    <link rel="stylesheet" href="/css/style.css?v=<?= time() ?>">
-    <link rel="stylesheet" href="/css/components.css?v=<?= time() ?>">
-    <link rel="stylesheet" href="/css/quiz_aanmaken.css?v=<?= time() ?>">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/quiz_aanmaken.css">
 </head>
 <body>
 
 <main class="qb-shell">
-    
+
     <?php if ($message === 'quiz_aangemaakt'): ?>
-        <div class="alert alert-success" style="max-width: 900px; margin: 1rem auto;">Quiz opgeslagen! Voeg nu vragen toe.</div>
+        <div class="alert alert-success qb-alert">Quiz opgeslagen! Voeg nu vragen toe.</div>
     <?php elseif ($error === 'empty_title'): ?>
-        <div class="alert alert-error" style="max-width: 900px; margin: 1rem auto;">Vul een titel in.</div>
+        <div class="alert alert-error qb-alert">Vul een titel in.</div>
     <?php endif; ?>
 
     <section class="qb-hero">
@@ -34,7 +36,7 @@ $message = $_GET['message'] ?? '';
     </section>
 
     <section class="qb-workspace-split">
-        
+
         <article class="qb-form-box">
             <div class="qb-section-header">
                 <span class="qb-eyebrow">Stap 1</span>
@@ -43,7 +45,7 @@ $message = $_GET['message'] ?? '';
 
             <form action="/quiz_opslaan.php" method="post" class="qb-form">
                 <?= csrf_field() ?>
-                
+
                 <div class="qb-input-field">
                     <label for="quiz_titel">Titel van je quiz</label>
                     <input id="quiz_titel" name="titel" type="text" placeholder="Bijvoorbeeld: Algemene Kennis" required autocomplete="off">
@@ -61,7 +63,7 @@ $message = $_GET['message'] ?? '';
                 <span class="qb-eyebrow">Slim opgebouwd</span>
                 <h2 class="qb-section-heading">Handige checklist</h2>
             </div>
-            
+
             <div class="qb-steps-stack">
                 <div class="qb-step-item qb-step-active">
                     <span class="qb-step-num">1</span>
@@ -70,7 +72,7 @@ $message = $_GET['message'] ?? '';
                         <p class="qb-muted-text">Geef direct aan waar de quiz over gaat.</p>
                     </div>
                 </div>
-                
+
                 <div class="qb-step-item">
                     <span class="qb-step-num">2</span>
                     <div class="qb-step-content">
@@ -78,7 +80,7 @@ $message = $_GET['message'] ?? '';
                         <p class="qb-muted-text">Bouw later de vragen netjes uit per onderdeel.</p>
                     </div>
                 </div>
-                
+
                 <div class="qb-step-item">
                     <span class="qb-step-num">3</span>
                     <div class="qb-step-content">
@@ -88,8 +90,9 @@ $message = $_GET['message'] ?? '';
                 </div>
             </div>
         </aside>
-        
+
     </section>
+
 </main>
 
 </body>

@@ -25,7 +25,7 @@ function is_logged_in(): bool
     return isset($_SESSION['user_id']);
 }
 
-
+// geeft de naam van de ingelogde gebruiker terug
 function current_user_name(): string
 {
     return $_SESSION['user_name'] ?? $_SESSION['user_username'] ?? 'speler';

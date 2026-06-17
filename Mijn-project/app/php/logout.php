@@ -9,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-
 require_csrf_token();
 
 // Leegt alle sessiegegevens
@@ -21,9 +20,7 @@ if (ini_get('session.use_cookies')) {
     setcookie(session_name(), '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
 }
 
-
 session_destroy();
-
 
 header('Location: /index.php?message=Je+bent+uitgelogd');
 exit;

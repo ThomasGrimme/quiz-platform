@@ -54,7 +54,7 @@ try {
         'email' => $email,
         'wachtwoord_hash' => $passwordHash,
     ]);
-} catch (PDOException $exception) {
+} catch (PDOException) {
     header('Location: /index.php?error=duplicate_username');
     exit;
 }
