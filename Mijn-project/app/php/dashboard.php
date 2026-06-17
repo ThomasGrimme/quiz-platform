@@ -29,9 +29,9 @@ if ($quizCount > 0) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kayeet | Dashboard</title>
-    <link rel="stylesheet" href="/css/style.css?v=<?= time() ?>">
-    <link rel="stylesheet" href="/css/components.css?v=<?= time() ?>">
-    <link rel="stylesheet" href="/css/dashboard.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
 
