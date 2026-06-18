@@ -4,10 +4,11 @@ require_once __DIR__ . '/auth.php';
 
 require_login();
 
-$quizId = (int) ($_GET['id'] ?? 0);
+$quizId = (int) ($_POST['quiz_id'] ?? $_GET['id'] ?? 0);
 $result = null;
 $totalQuestions = 0;
 $correctCount = 0;
+$quizJsonData = [];
 
 if ($quizId > 0) {
     $qStmt = $pdo->prepare('SELECT id, titel, user_id FROM quizzes WHERE id = :id');
@@ -61,6 +62,28 @@ if ($quizId > 0) {
 
         $result = ['correct' => $correctCount, 'total' => $totalQuestions];
     }
+
+    // Build JSON data for the game frontend
+    if ($totalQuestions > 0) {
+        foreach ($questions as $q) {
+            $qId = (int) $q['id'];
+            $answers = [];
+            $correctId = null;
+            foreach ($answersByQuestion[$qId] ?? [] as $a) {
+                $aId = (int) $a['id'];
+                $answers[] = ['id' => $aId, 'text' => $a['antwoord_tekst']];
+                if ((int) $a['is_correct'] === 1) {
+                    $correctId = $aId;
+                }
+            }
+            $quizJsonData[] = [
+                'id' => $qId,
+                'text' => $q['vraag_tekst'],
+                'answers' => $answers,
+                'correct_id' => $correctId,
+            ];
+        }
+    }
 } else {
     $quizzesStmt = $pdo->query('SELECT id, titel, user_id FROM quizzes ORDER BY aangemaakt_op DESC');
     $allQuizzes = $quizzesStmt->fetchAll();
@@ -112,77 +135,98 @@ if ($quizId > 0) {
         </div>
     <?php endif; ?>
 
-<?php elseif ($result): ?>
-    <header class="card game-topbar">
-        <div class="stack">
-            <div class="eyebrow">Resultaat</div>
-            <h1><?= htmlspecialchars($quiz['titel'], ENT_QUOTES, 'UTF-8') ?></h1>
-            <p class="muted">Je hebt de quiz voltooid!</p>
+<?php elseif ($result):
+    $percentage = $totalQuestions > 0 ? round($result['correct'] / $result['total'] * 100) : 0;
+    $wrong = $totalQuestions - $result['correct'];
+?>
+    <div class="result-hero">
+        <div class="result-score-wrap">
+            <span class="result-correct"><?= $result['correct'] ?></span>
+            <span class="result-slash">/</span>
+            <span class="result-total"><?= $result['total'] ?></span>
         </div>
-        <div class="game-progress">
-            <span class="pill" style="background:#d1fae5;color:#047857;"><?= $result['correct'] ?>/<?= $result['total'] ?> goed</span>
-        </div>
-    </header>
+        <div class="result-label"><?= $percentage ?>% goed</div>
+    </div>
 
-    <div class="card" style="padding:24px;text-align:center;">
-        <div style="font-size:3rem;font-weight:900;letter-spacing:-0.04em;"><?= $result['correct'] ?>/<?= $result['total'] ?></div>
-        <p class="muted" style="margin-top:8px;"><?= $result['correct'] === $result['total'] ? 'Perfect score!' : 'Probeer het nog eens.' ?></p>
-        <div class="form-actions" style="justify-content:center;margin-top:16px;">
-            <a class="button" href="/quiz_spelen.php?id=<?= $quizId ?>">Opnieuw spelen</a>
-            <a class="button button-ghost" href="/quiz_spelen.php">Andere quiz</a>
-            <a class="button button-ghost" href="/dashboard.php">Dashboard</a>
+    <div class="result-stats">
+        <div class="result-stat">
+            <span class="result-stat-value" style="color:#16a34a;"><?= $result['correct'] ?></span>
+            <span class="result-stat-label">Correct</span>
+        </div>
+        <div class="result-stat">
+            <span class="result-stat-value" style="color:#dc2626;"><?= $wrong ?></span>
+            <span class="result-stat-label">Fout</span>
+        </div>
+        <div class="result-stat">
+            <span class="result-stat-value"><?= $result['total'] ?></span>
+            <span class="result-stat-label">Totaal</span>
         </div>
     </div>
 
+    <div class="result-actions">
+        <a class="button" href="/quiz_spelen.php?id=<?= $quizId ?>">Opnieuw spelen</a>
+        <a class="button button-ghost" href="/quiz_spelen.php">Andere quiz</a>
+        <a class="button button-ghost" href="/dashboard.php">Dashboard</a>
+    </div>
+
 <?php else: ?>
-    <form method="post">
+    <?php if ($totalQuestions === 0): ?>
+        <div class="card" style="padding:24px;text-align:center;">
+            <div class="stack" style="align-items:center;">
+                <h2>Geen vragen</h2>
+                <p class="muted">Deze quiz heeft nog geen vragen.</p>
+                <a class="button" href="/dashboard.php">Dashboard</a>
+            </div>
+        </div>
+    <?php else: ?>
+    <header class="card game-topbar">
+        <div class="stack">
+            <div class="eyebrow">Quiz spelen</div>
+            <h1><?= htmlspecialchars($quiz['titel'], ENT_QUOTES, 'UTF-8') ?></h1>
+        </div>
+        <div class="game-stats">
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill" style="width:0%"></div>
+            </div>
+            <div class="stat-row">
+                <span id="questionCounter">Vraag 1 / <?= $totalQuestions ?></span>
+                <span id="scoreDisplay">Score: 0</span>
+                <div class="timer" id="timerDisplay">15</div>
+            </div>
+        </div>
+    </header>
+
+    <form method="post" id="quizForm">
         <?= csrf_field() ?>
-        <header class="card game-topbar">
-            <div class="stack">
-                <div class="eyebrow">Quiz spelen</div>
-                <h1><?= htmlspecialchars($quiz['titel'], ENT_QUOTES, 'UTF-8') ?></h1>
-                <p class="muted">Beantwoord alle vragen.</p>
-            </div>
-            <div class="game-progress">
-                <span class="pill"><?= $totalQuestions ?> vragen</span>
-            </div>
-        </header>
+        <input type="hidden" name="quiz_id" value="<?= $quizId ?>">
 
-        <section class="game-grid">
-            <div class="card" style="padding:24px;display:grid;gap:24px;">
-                <?php foreach ($questions as $q): ?>
-                    <?php $qId = (int) $q['id']; ?>
-                    <div>
-                        <h3 style="margin-bottom:12px;"><?= htmlspecialchars($q['vraag_tekst'], ENT_QUOTES, 'UTF-8') ?></h3>
-                        <div class="answers">
-                            <?php if (isset($answersByQuestion[$qId])): ?>
-                                <?php foreach ($answersByQuestion[$qId] as $a): ?>
-                                    <label class="answer-card" style="display:flex;align-items:center;gap:12px;cursor:pointer;">
-                                        <input type="radio" name="vraag_<?= $qId ?>" value="<?= (int) $a['id'] ?>" required style="width:auto;min-height:auto;accent-color:var(--primary);">
-                                        <?= htmlspecialchars($a['antwoord_tekst'], ENT_QUOTES, 'UTF-8') ?>
-                                    </label>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+        <?php foreach ($quizJsonData as $index => $qd): ?>
+        <div class="question-step<?= $index === 0 ? ' active' : '' ?>" data-index="<?= $index ?>" data-question-id="<?= $qd['id'] ?>" data-correct-id="<?= $qd['correct_id'] ?>">
+            <h2 class="question-text"><?= htmlspecialchars($qd['text'], ENT_QUOTES, 'UTF-8') ?></h2>
+            <div class="answer-grid">
+                <?php
+                $colors = ['red', 'blue', 'yellow', 'green'];
+                $ci = 0;
+                ?>
+                <?php foreach ($qd['answers'] as $a): ?>
+                <button type="button" class="answer-btn answer-btn--<?= $colors[$ci % 4] ?>" data-answer-id="<?= $a['id'] ?>">
+                    <?= htmlspecialchars($a['text'], ENT_QUOTES, 'UTF-8') ?>
+                </button>
+                <?php $ci++; endforeach; ?>
             </div>
+            <input type="hidden" name="vraag_<?= $qd['id'] ?>" value="">
+        </div>
+        <?php endforeach; ?>
 
-            <aside class="card game-card scoreboard" style="padding:24px;">
-                <div>
-                    <div class="eyebrow">Status</div>
-                    <h2>Speloverzicht</h2>
-                </div>
-                <div class="scoreboard-list">
-                    <div class="scoreboard-item"><span>Vragen</span><strong><?= $totalQuestions ?></strong></div>
-                </div>
-                <button class="button" type="submit" style="width:100%;margin-top:12px;">Controleren</button>
-                <a class="button button-ghost" href="/quiz_spelen.php" style="width:100%;margin-top:8px;">Annuleren</a>
-            </aside>
-        </section>
+        <div class="game-nav">
+            <button type="button" class="button" id="nextBtn" style="display:none">Volgende &rarr;</button>
+            <button type="submit" class="button" id="finishBtn" style="display:none">Bekijk resultaat</button>
+        </div>
     </form>
+    <?php endif; ?>
 <?php endif; ?>
 
 </main>
+<script src="/js/script.js"></script>
 </body>
 </html>

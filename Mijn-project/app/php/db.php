@@ -236,7 +236,7 @@ function normalizeUsername(string $value): string
     return $value !== '' ? $value : 'user';
 }
 
-// Maakt een testgebruiker aan als die nog niet bestaat
+
 function seedTestUser(PDO $pdo): void
 {
     $email = 'test@test.com';
