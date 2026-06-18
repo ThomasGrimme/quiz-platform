@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 require_once __DIR__ . '/auth.php';
 
 require_login();
@@ -11,6 +12,8 @@ $correctCount = 0;
 $quizJsonData = [];
 
 if ($quizId > 0) {
+
+    // haalt de quizgegevens op
     $qStmt = $pdo->prepare('SELECT id, titel, user_id FROM quizzes WHERE id = :id');
     $qStmt->execute(['id' => $quizId]);
     $quiz = $qStmt->fetch();
@@ -20,16 +23,20 @@ if ($quizId > 0) {
         exit;
     }
 
+    // haalt alle vragen van de quiz op
     $questionsStmt = $pdo->prepare('SELECT id, vraag_tekst FROM questions WHERE quiz_id = :quiz_id ORDER BY volgorde ASC');
     $questionsStmt->execute(['quiz_id' => $quizId]);
     $questions = $questionsStmt->fetchAll();
 
+    // haalt alle antwoorden van de vragen op
     $answersByQuestion = [];
     if (!empty($questions)) {
         $ids = array_column($questions, 'id');
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
         $aStmt = $pdo->prepare("SELECT id, antwoord_tekst, is_correct, question_id FROM answers WHERE question_id IN ($placeholders) ORDER BY volgorde ASC");
         $aStmt->execute($ids);
+
         foreach ($aStmt->fetchAll() as $row) {
             $answersByQuestion[(int) $row['question_id']][] = $row;
         }
@@ -37,12 +44,16 @@ if ($quizId > 0) {
 
     $totalQuestions = count($questions);
 
+    // verwerkt de ingevulde antwoorden
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $totalQuestions > 0) {
         require_csrf_token();
+
         $correctCount = 0;
+
         foreach ($questions as $q) {
             $qId = (int) $q['id'];
             $selected = (int) ($_POST['vraag_' . $qId] ?? -1);
+
             if (isset($answersByQuestion[$qId])) {
                 foreach ($answersByQuestion[$qId] as $a) {
                     if ((int) $a['id'] === $selected && (int) $a['is_correct'] === 1) {
@@ -53,6 +64,7 @@ if ($quizId > 0) {
             }
         }
 
+        // slaat de score op in de database
         $scoreStmt = $pdo->prepare('INSERT INTO scores (score, quiz_id, user_id) VALUES (:score, :quiz_id, :user_id)');
         $scoreStmt->execute([
             'score' => $correctCount,
@@ -60,7 +72,10 @@ if ($quizId > 0) {
             'user_id' => (int) $_SESSION['user_id'],
         ]);
 
-        $result = ['correct' => $correctCount, 'total' => $totalQuestions];
+        $result = [
+            'correct' => $correctCount,
+            'total' => $totalQuestions
+        ];
     }
 
     // Build JSON data for the game frontend
@@ -85,6 +100,8 @@ if ($quizId > 0) {
         }
     }
 } else {
+
+    // haalt alle beschikbare quizzen op
     $quizzesStmt = $pdo->query('SELECT id, titel, user_id FROM quizzes ORDER BY aangemaakt_op DESC');
     $allQuizzes = $quizzesStmt->fetchAll();
 }
