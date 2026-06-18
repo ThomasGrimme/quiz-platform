@@ -1,7 +1,3 @@
-/* ==========================================================================
-   Simple & Clean Modern Auth Layout
-   ========================================================================== */
-
 body {
     background-color: #f8fafc !important;
     font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
@@ -19,7 +15,6 @@ body {
     box-sizing: border-box !important;
 }
 
-/* Single Container Concept */
 .auth-shell {
     width: 100% !important;
     max-width: 440px !important;
@@ -30,7 +25,6 @@ body {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 4px 12px rgba(0, 0, 0, 0.01) !important;
 }
 
-/* Brand Area */
 .brand-panel {
     text-align: center !important;
     margin-bottom: 24px !important;
@@ -49,19 +43,16 @@ body {
     margin: 0 !important;
 }
 
-/* Hidden elements to keep it simple (Grid & Features removed) */
 .feature-grid {
     display: none !important;
 }
 
-/* Form Container Stack */
 .auth-stack {
     display: flex !important;
     flex-direction: column !important;
     gap: 20px !important;
 }
 
-/* Modern Tab Switcher */
 .auth-tabs {
     display: flex !important;
     gap: 4px !important;
@@ -90,7 +81,6 @@ body {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
 }
 
-/* Form Elements */
 .auth-form {
     display: flex !important;
     flex-direction: column !important;
@@ -133,7 +123,6 @@ body {
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
 }
 
-/* Main Action Button */
 .auth-form button {
     background: #6366f1 !important;
     color: #ffffff !important;
@@ -151,7 +140,6 @@ body {
     background: #4f46e5 !important;
 }
 
-/* System Alerts & Footers */
 .alert {
     padding: 12px 14px !important;
     border-radius: 8px !important;
