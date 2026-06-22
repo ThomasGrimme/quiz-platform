@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/auth.php';
 
-// controleert of de gebruiker is ingelogd
+
 require_login();
 
-// haalt de quiz op
+
 $quizId = (int) ($_GET['id'] ?? 0);
 if ($quizId < 1) {
     header('Location: /dashboard.php');
@@ -17,7 +17,7 @@ $statement = $pdo->prepare('SELECT id, titel, user_id FROM quizzes WHERE id = :i
 $statement->execute(['id' => $quizId]);
 $quiz = $statement->fetch();
 
-// controleert of de quiz van de ingelogde gebruiker is
+
 if (!$quiz || (int) $quiz['user_id'] !== (int) $_SESSION['user_id']) {
     header('Location: /dashboard.php');
     exit;
@@ -26,13 +26,12 @@ if (!$quiz || (int) $quiz['user_id'] !== (int) $_SESSION['user_id']) {
 $error = '';
 $success = '';
 
-// verwerkt het formulier
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_csrf_token();
 
     $action = $_POST['action'] ?? '';
 
-    // Voegt een nieuwe vraag toe
     if ($action === 'add_question') {
         $vraagTekst = trim((string) ($_POST['vraag_tekst'] ?? ''));
         $antwoorden = $_POST['antwoord'] ?? [];
@@ -79,12 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// haalt alle vragen van de quiz op
+
 $questionsStmt = $pdo->prepare('SELECT id, vraag_tekst, volgorde FROM questions WHERE quiz_id = :quiz_id ORDER BY volgorde ASC');
 $questionsStmt->execute(['quiz_id' => $quizId]);
 $questions = $questionsStmt->fetchAll();
 
-// haalt de antwoorden van alle vragen op
+
 $answersByQuestion = [];
 if (!empty($questions)) {
     $ids = array_column($questions, 'id');
