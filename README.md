@@ -28,7 +28,7 @@ Start de PHP server met het volgende commando:
 0
 Bash
 php -S localhost:8000 -t app/php/
-4. Open [http://localhost:8000](http://localhost:8080) in je browser.
+4. Open [http://localhost:8080](http://localhost:8080) in je browser.
 
 ---
 
