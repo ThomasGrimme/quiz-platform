@@ -54,7 +54,7 @@
     padding: 28px 16px 24px;
     border-radius: 16px;
     text-align: center;
-    background: #fff;
+    background: rgb(196, 196, 196);
     border: 1px solid var(--border);
     border-top: 4px solid var(--primary);
 }

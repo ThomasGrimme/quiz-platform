@@ -17,7 +17,7 @@ require_csrf_token();
 
 $titel = trim((string) ($_POST['titel'] ?? ''));
 
-d
+
 if ($titel === '') {
     header('Location: /quiz_aanmaken.php?error=empty_title');
     exit;
