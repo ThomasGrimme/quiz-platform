@@ -1,0 +1,57 @@
+.qb-shell {
+    width: min(1100px, 100% - 32px);
+    margin: 0 auto;
+    padding: clamp(24px, 5vw, 48px) 0;
+}
+
+.qb-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.qb-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #1e293b;
+}
+
+.qb-antwoord-row input[type="text"] {
+    min-height: 42px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.qb-antwoord-row input[type="text"]:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(91, 92, 246, 0.14);
+}
+
+.qb-antwoord-row input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    min-height: auto;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    accent-color: var(--primary);
+    flex-shrink: 0;
+}
+
+.qb-vraag-card + .qb-vraag-card {
+    margin-top: 12px;
+}
+
+@media (max-width: 720px) {
+    .qb-two-col {
+        grid-template-columns: 1fr;
+    }
+}

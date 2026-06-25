@@ -3,7 +3,17 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/bootstrap.php';
 
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: /dashboard.php');
+    exit;
+}
+
+require_csrf_token();
+
+
 $_SESSION = [];
+
 
 if (ini_get('session.use_cookies')) {
     $params = session_get_cookie_params();
@@ -12,5 +22,5 @@ if (ini_get('session.use_cookies')) {
 
 session_destroy();
 
-header('Location: index.php?message=Je+bent+uitgelogd');
+header('Location: /index.php?message=Je+bent+uitgelogd');
 exit;
