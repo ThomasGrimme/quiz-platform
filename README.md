@@ -34,7 +34,7 @@ php -S localhost:8000 -t app/php/
 
 ### Inloggegevens testaccount
 Je kunt inloggen met de volgende gegevens:
-- **Email:** `test@test.com`
+- **Email:** `meow@test.com`
 - **Wachtwoord:** `Test1234!.`
 - natuurlijk ook eigen account te maken
 - inlogbaar en opslag van progressie
